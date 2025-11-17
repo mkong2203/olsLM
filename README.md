@@ -1,37 +1,35 @@
----
-output: github_document
----
 
-# Ordinary Least Squares Linear Regression -- `olsLM()`
+# Ordinary Least Squares Linear Regression – `olsLM()`
 
 The **olsLM** package is a minimal and educational implementation of
 ordinary least squares (OLS) linear regression in R.  
-It illustrates how linear models can be constructed from scratch without relying
-on the built-in `lm()` function.
+It illustrates how linear models can be constructed from scratch without
+relying on the built-in `lm()` function.
 
 The package provides:
 
 - `olsLM()` — OLS fitting function (formula or matrix interface)  
-- `summary()` method — prints regression coefficients, t-tests, R-squared  
-- `plot()` method — diagnostic plots (residuals, Q–Q plot, scale-location, leverage)
+- `summary()` method — prints regression coefficients, t-tests,
+  R-squared  
+- `plot()` method — diagnostic plots (residuals, Q–Q plot,
+  scale-location, leverage)
 
----
+------------------------------------------------------------------------
 
 # Installation
 
-```{r, eval = FALSE}
+``` r
 install.packages("devtools")
 devtools::install_github("mkong2203/olsLM", build_vignettes = TRUE)
 
 library(olsLM)
 ```
 
----
-
+------------------------------------------------------------------------
 
 # Features
 
-##  Linear regression — `olsLM()`
+## Linear regression — `olsLM()`
 
 The main function `olsLM()` fits a linear regression model.
 
@@ -39,32 +37,34 @@ The main function `olsLM()` fits a linear regression model.
 
 The summary method reports:
 
-1. model call
+1.  model call
 
-2. coefficient table (Estimate, Std.Error, t-value, p-value)
+2.  coefficient table (Estimate, Std.Error, t-value, p-value)
 
-3. residual standard error
+3.  residual standard error
 
-4. R-squared and adjusted R-squared
+4.  R-squared and adjusted R-squared
 
-##  Diagnostic plots — `plot(fit)`
-The plot() method produces the four classical regression diagnostic plots:
+## Diagnostic plots — `plot(fit)`
 
-1. Residuals vs Fitted
+The plot() method produces the four classical regression diagnostic
+plots:
 
-2. Normal Q–Q Plot
+1.  Residuals vs Fitted
 
-3. Scale–Location Plot
+2.  Normal Q–Q Plot
 
-4. Residuals vs Leverage
+3.  Scale–Location Plot
 
----
+4.  Residuals vs Leverage
+
+------------------------------------------------------------------------
 
 # Example
 
 ### **Formula interface**
 
-```{r, echo = TRUE, results = "hide", fig.show = "hide"}
+``` r
 library(olsLM)
 fit <- olsLM(mpg ~ wt + hp, data = mtcars)
 summary(fit)
@@ -73,7 +73,7 @@ plot(fit)
 
 ### **Matrix interface**
 
-```{r, echo = TRUE, results = "hide", fig.show = "hide"}
+``` r
 X <- as.matrix(mtcars[, c("wt", "hp")])
 y <- mtcars$mpg
 fit <- olsLM(X, y)
@@ -83,9 +83,9 @@ plot(fit)
 
 ### **Returned values**
 
-The fitted model stores regression outputs, accessible via $:
+The fitted model stores regression outputs, accessible via \$:
 
-```{r, echo = TRUE, results = "hide"}
+``` r
 fit$coefficients    # regression coefficients
 fit$fitted          # fitted values
 fit$residuals       # ordinary residuals
@@ -96,5 +96,3 @@ fit$r_student_ext   # externally studentized residuals
 fit$r_squared       # R-squared
 fit$adjusted_r_squared # adjusted R-squared
 ```
-
-
