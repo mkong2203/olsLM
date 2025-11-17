@@ -1,8 +1,8 @@
 ---
-title: "olsLM-intro"
+title: "Introduction to `olsLM()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{olsLM-intro}
+  %\VignetteIndexEntry{Introduction to `olsLM()`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 
-```{r setup}
+```{r setup, include = FALSE}
 library(bench)
 ```
 
