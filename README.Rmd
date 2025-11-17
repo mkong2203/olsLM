@@ -4,6 +4,11 @@ output: github_document
 
 # Ordinary Least Squares Linear Regression -- `olsLM()`
 
+[![R-CMD-check](https://github.com/mkong2203/olsLM/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mkong2203/olsLM/actions)
+
+[![Codecov test coverage](https://codecov.io/gh/mkong2203/olsLM/branch/main/graph/badge.svg)](https://app.codecov.io/gh/mkong2203/olsLM)
+
+
 The **olsLM** package is a minimal and educational implementation of
 ordinary least squares (OLS) linear regression in R.  
 It illustrates how linear models can be constructed from scratch without relying
