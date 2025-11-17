@@ -1,0 +1,239 @@
+---
+title: "olsLM-intro"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{olsLM-intro}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+```{r setup}
+library(bench)
+```
+
+
+# Overview
+
+The main goal of olsLM() is to fit a linear regression model using ordinary least squares (OLS),
+implemented from scratch, without relying on the built-in lm() function. It supports both a
+formula interface and a matrix interface.
+
+```{r}
+library(olsLM)
+```
+
+The package provides:
+
+- olsLM() – fit a linear regression model
+
+- summary() – print regression results
+
+- plot() – produce diagnostic plots
+
+# Fitting the model
+
+### Function arguments
+
+olsLM() can be called in two main ways:
+
+1. Formula interface
+
+```{r, echo = TRUE, results = "hide"}
+#example
+olsLM(mpg ~ wt + hp, data = mtcars)
+```
+
+
+2. Matrix interface
+
+```{r, echo = TRUE, results = "hide"}
+#example
+X <- as.matrix(mtcars[, c("wt", "hp")])
+y <- mtcars$mpg
+olsLM(X, y)
+```
+
+
+The arguments are:
+
+x:
+
+- For the formula method: a model formula, e.g. mpg ~ wt + hp.
+
+- For the default method: a numeric matrix of predictors.
+
+y: For the default method: numeric response vector.
+
+data: The dataset where the $x$ and $y$ from.
+
+...: Additional arguments (currently ignored).
+
+### Returned components
+
+The object returned by olsLM() (of class "olsLM") contains:
+
+- coefficients: estimated regression coefficients.
+
+- fitted: fitted values.
+
+- residuals: ordinary residuals.
+
+- sigma2: residual variance estimate.
+
+- df_residual: residual degrees of freedom.
+
+- vcov: estimated covariance matrix of coefficients.
+
+- coef_table: coefficients with standard errors, t-values and p-values.
+
+- r_squared: R^2
+
+- adjusted_r_squared: adjusted R^2
+
+- leverage: hat values.
+
+- r_standard: standardized residuals.
+
+- r_student: internally studentized residuals.
+
+- r_student_ext: externally studentized residuals.
+
+
+# Summary output
+
+The summary() method provides:
+
+- estimated coefficients
+
+- standard errors
+
+- t-statistics and p-values
+
+- residual standard error
+
+- R-squared and adjusted R-squared
+
+
+# Diagnostic Plots
+
+The package includes a plot() method that produces the standard four regression diagnostic plots:
+
+- Residuals vs Fitted
+
+- Normal Q–Q
+
+- Scale–Location
+
+- Residuals vs Leverage
+
+
+---
+
+# Example 1: Simple Linear Regression
+
+We start with a simple linear regression example using the built-in mtcars dataset. Suppose we want to predict mpg (miles per gallon) using wt (weight) as a single predictor.
+
+```{r}
+fit_simple <- olsLM(mpg ~ wt, data = mtcars)
+summary(fit_simple)
+```
+
+The olsLM() included a standard regression summary similar to summary(lm(...)) with the coefficients, standard errors, t-values, p-values, residual standard error, and R^2.
+
+
+# Example 2: Multiple Linear Regression
+
+Next, we consider a multiple linear regression model using several predictors. Suppose we want to predict mpg using wt, hp (horsepower), and qsec (1/4 mile time):
+
+```{r}
+fit_multi <- olsLM(mpg ~ wt + hp + qsec, data = mtcars)
+summary(fit_multi)
+```
+
+We also include some diagnostic quantities in olsLM():
+
+```{r}
+head(fit_multi$leverage)
+head(fit_multi$r_standard)
+head(fit_multi$r_student)
+head(fit_multi$r_student_ext)
+```
+
+
+# Example 3: Diagnostic Plots
+
+The plot() helps to check the linearity, homoscedasticity, normality of residuals, and influential observations.
+
+```{r, fig.height=6, fig.width=6}
+plot(fit_multi)
+```
+ 
+
+---
+
+# Correctness
+
+We compare the numeric correctness of olsLM() and lm() using all.equal().
+
+```{r}
+## Fit models using olsLM() and lm()
+
+fit_olsLM <- olsLM(mpg ~ cyl + wt + disp, mtcars)
+fit_lm    <- lm(mpg ~ cyl + wt + disp, mtcars)
+
+## Coefficients
+
+coef_ols <- as.numeric(fit_olsLM$coefficients)
+coef_lm  <- as.numeric(coef(fit_lm))
+all.equal(coef_ols, coef_lm)
+
+## Fitted values
+
+fitted_ols <- fit_olsLM$fitted
+fitted_lm <- as.numeric(fitted(fit_lm))
+all.equal(fitted_ols, fitted_lm)
+
+## Residuals
+
+resid_ols <- as.numeric(fit_olsLM$residuals)
+resid_lm  <- as.numeric(residuals(fit_lm))
+all.equal(resid_ols,resid_lm)
+
+## R-squared
+
+all.equal(fit_olsLM$r_squared,
+summary(fit_lm)$r.squared)
+
+```
+
+
+From the above comparisons, we see that olsLM() and lm() produce the same numerical results for the regression coefficients, fitted values, residuals, and R^2. This demonstrates the correctness of the implementation
+
+
+# Efficiency
+
+We compare the efficiency of olsLM() and lm() using bench::mark().
+
+```{r}
+library(bench)
+
+bench::mark(
+olsLM = olsLM(mpg ~ cyl + wt + disp, data = mtcars),
+lm    = lm(mpg ~ cyl + wt + disp, data = mtcars),
+iterations = 500,
+check = FALSE
+)
+```
+
+The olsLM() function directly computes the closed-form of OLS solution with minimal overhead in running time, while lm() is a more general and feature-rich implementation that supports many additional model types and options.
+
+
+

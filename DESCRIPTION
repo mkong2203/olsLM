@@ -1,20 +1,26 @@
 Package: olsLM
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Ordinary Least Squares Linear Regression
 Version: 0.1.0
 Authors@R: c(
     person(
-      "Jane", "Doe",
-      email = "jane@example.com",
+      "Miaoyang", "Kong",
+      email = "miaoyang@umich.edu",
       role = c("aut", "cre")
     )
   )
-Description: More about what it does (maybe more than one line).
-    Continuation lines should be indented.
-License: What license is it under?
+Description: Implements an ordinary least squares (OLS) 
+    linear regression fitting function. The package provides an OLS 
+    model fitting function 'olsLM()', together with custom 'summary()' 
+    and 'plot()' methods. 
+License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
-Imports: Rcpp (>= 1.1.0)
-LinkingTo: Rcpp
 URL: https://github.com/mkong2203/olsLM
 BugReports: https://github.com/mkong2203/olsLM/issues
+RoxygenNote: 7.3.3
+Roxygen: list(markdown = TRUE)
+Suggests: 
+    bench,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
