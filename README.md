@@ -81,6 +81,9 @@ summary(fit)
 plot(fit)
 ```
 
+When `x` is a numeric matrix, `olsLM()` automatically adds an intercept
+column, similar to `lm()`.
+
 ### **Returned values**
 
 The fitted model stores regression outputs, accessible via \$:

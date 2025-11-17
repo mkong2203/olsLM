@@ -10,7 +10,7 @@ olsLM(x, ...)
 
 \method{olsLM}{formula}(x, data, ...)
 
-\method{olsLM}{default}(x, y, call = NULL, ...)
+\method{olsLM}{default}(x, y, intercept = TRUE, call = NULL, ...)
 }
 \arguments{
 \item{x}{A model formula (for the formula interface) or a numeric matrix
@@ -21,6 +21,9 @@ of predictors (for the matrix interface).}
 \item{data}{A data frame containing variables used in the formula.}
 
 \item{y}{Response vector (numeric).}
+
+\item{intercept}{Logical; if TRUE (default) and x is a numeric matrix
+without an intercept column, an intercept column of 1s is added.}
 
 \item{call}{The matched call (for printing).}
 }
@@ -62,5 +65,6 @@ summary(fit1)
 X <- as.matrix(mtcars[, c("wt", "hp")])
 y <- mtcars$mpg
 fit2 <- olsLM(X, y)
+summary(fit2)
 
 }

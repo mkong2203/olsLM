@@ -39,6 +39,7 @@
 #' X <- as.matrix(mtcars[, c("wt", "hp")])
 #' y <- mtcars$mpg
 #' fit2 <- olsLM(X, y)
+#' summary(fit2)
 #'
 #' @export
 olsLM <- function(x, ...) {
@@ -53,19 +54,30 @@ olsLM.formula <- function(x, data, ...) {
   X <- model.matrix(attr(model, "terms"), model)
   y <- model.response(model)
 
-  olsLM.default(X, y, call = match.call())
+  olsLM.default(X, y, intercept = FALSE, call = match.call())
 }
 
 #' @rdname olsLM
 #' @param y Response vector (numeric).
+#' @param intercept Logical; if TRUE (default) and x is a numeric matrix
+#'   without an intercept column, an intercept column of 1s is added.
 #' @param call The matched call (for printing).
 #' @export
-olsLM.default <- function(x, y, call = NULL, ...) {
+olsLM.default <- function(x, y, intercept = TRUE, call = NULL, ...) {
   X <- as.matrix(x)
   y <- as.numeric(y)
 
   if (is.null(call)) {
     call <- match.call()
+  }
+
+  if (isTRUE(intercept)) {
+    if (is.null(colnames(X))) {
+      colnames(X) <- paste0("x", seq_len(ncol(X)))
+    }
+    if (!("(Intercept)" %in% colnames(X))) {
+      X <- cbind("(Intercept)" = 1, X)
+    }
   }
 
   # OLS

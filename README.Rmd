@@ -64,7 +64,7 @@ The plot() method produces the four classical regression diagnostic plots:
 
 ### **Formula interface**
 
-```{r, echo = TRUE, results = "hide", fig.show = "hide"}
+```{r, echo = TRUE, results = "hide", fig.show = "hide", eval = FALSE}
 library(olsLM)
 fit <- olsLM(mpg ~ wt + hp, data = mtcars)
 summary(fit)
@@ -73,7 +73,7 @@ plot(fit)
 
 ### **Matrix interface**
 
-```{r, echo = TRUE, results = "hide", fig.show = "hide"}
+```{r, echo = TRUE, results = "hide", fig.show = "hide", eval = FALSE}
 X <- as.matrix(mtcars[, c("wt", "hp")])
 y <- mtcars$mpg
 fit <- olsLM(X, y)
@@ -81,11 +81,13 @@ summary(fit)
 plot(fit)
 ```
 
+When `x` is a numeric matrix, `olsLM()` automatically adds an intercept column, similar to `lm()`.
+
 ### **Returned values**
 
 The fitted model stores regression outputs, accessible via $:
 
-```{r, echo = TRUE, results = "hide"}
+```{r, echo = TRUE, results = "hide", eval = FALSE}
 fit$coefficients    # regression coefficients
 fit$fitted          # fitted values
 fit$residuals       # ordinary residuals

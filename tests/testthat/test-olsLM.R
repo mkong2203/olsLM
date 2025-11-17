@@ -34,7 +34,7 @@ test_that("matrix interface and formula interface give same result", {
   y <- mtcars$mpg
 
   fit_mat  <- olsLM(X, y)
-  fit_form <- olsLM(mpg ~ wt + hp + qsec - 1, data = mtcars)
+  fit_form <- olsLM(mpg ~ wt + hp + qsec, data = mtcars)
 
   expect_equal(
     unname(fit_mat$coefficients),

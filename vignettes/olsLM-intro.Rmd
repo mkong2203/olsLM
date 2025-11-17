@@ -61,6 +61,7 @@ y <- mtcars$mpg
 olsLM(X, y)
 ```
 
+When `x` is a numeric matrix, `olsLM()` automatically adds an intercept column, similar to `lm()`.
 
 The arguments are:
 
