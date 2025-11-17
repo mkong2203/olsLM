@@ -22,8 +22,8 @@ library(bench)
 
 # Overview
 
-The main goal of olsLM() is to fit a linear regression model using ordinary least squares (OLS),
-implemented from scratch, without relying on the built-in lm() function. It supports both a
+The main goal of `olsLM()` is to fit a linear regression model using ordinary least squares (OLS),
+implemented from scratch, without relying on the built-in `lm()` function. It supports both a
 formula interface and a matrix interface.
 
 ```{r}
@@ -32,17 +32,17 @@ library(olsLM)
 
 The package provides:
 
-- olsLM() – fit a linear regression model
+- `olsLM()` – fit a linear regression model
 
-- summary() – print regression results
+- `summary()` – print regression results
 
-- plot() – produce diagnostic plots
+- `plot()` – produce diagnostic plots
 
 # Fitting the model
 
 ### Function arguments
 
-olsLM() can be called in two main ways:
+`olsLM()` can be called in two main ways:
 
 1. Formula interface
 
@@ -64,52 +64,52 @@ olsLM(X, y)
 
 The arguments are:
 
-x:
+`x`:
 
 - For the formula method: a model formula, e.g. mpg ~ wt + hp.
 
 - For the default method: a numeric matrix of predictors.
 
-y: For the default method: numeric response vector.
+`y`: For the default method: numeric response vector.
 
-data: The dataset where the $x$ and $y$ from.
+`data`: The dataset where the $x$ and $y$ from.
 
-...: Additional arguments (currently ignored).
+`...`: Additional arguments (currently ignored).
 
 ### Returned components
 
-The object returned by olsLM() (of class "olsLM") contains:
+The object returned by `olsLM()` (of class "olsLM") contains:
 
-- coefficients: estimated regression coefficients.
+- `coefficients`: estimated regression coefficients.
 
-- fitted: fitted values.
+- `fitted`: fitted values.
 
-- residuals: ordinary residuals.
+- `residuals`: ordinary residuals.
 
-- sigma2: residual variance estimate.
+- `sigma2`: residual variance estimate.
 
-- df_residual: residual degrees of freedom.
+- `df_residual`: residual degrees of freedom.
 
-- vcov: estimated covariance matrix of coefficients.
+- `vcov`: estimated covariance matrix of coefficients.
 
-- coef_table: coefficients with standard errors, t-values and p-values.
+- `coef_table`: coefficients with standard errors, t-values and p-values.
 
-- r_squared: R^2
+- `r_squared`: R^2
 
-- adjusted_r_squared: adjusted R^2
+- `adjusted_r_squared`: adjusted R^2
 
-- leverage: hat values.
+- `leverage`: hat values.
 
-- r_standard: standardized residuals.
+- `r_standard`: standardized residuals.
 
-- r_student: internally studentized residuals.
+- `r_student`: internally studentized residuals.
 
-- r_student_ext: externally studentized residuals.
+- `r_student_ext`: externally studentized residuals.
 
 
 # Summary output
 
-The summary() method provides:
+The `summary()` method provides:
 
 - estimated coefficients
 
@@ -124,7 +124,7 @@ The summary() method provides:
 
 # Diagnostic Plots
 
-The package includes a plot() method that produces the standard four regression diagnostic plots:
+The package includes a `plot()` method that produces the standard four regression diagnostic plots:
 
 - Residuals vs Fitted
 
@@ -146,7 +146,7 @@ fit_simple <- olsLM(mpg ~ wt, data = mtcars)
 summary(fit_simple)
 ```
 
-The olsLM() included a standard regression summary similar to summary(lm(...)) with the coefficients, standard errors, t-values, p-values, residual standard error, and R^2.
+The `olsLM()` included a standard regression summary similar to `summary(lm(...))` with the coefficients, standard errors, t-values, p-values, residual standard error, and R^2.
 
 
 # Example 2: Multiple Linear Regression
@@ -158,7 +158,7 @@ fit_multi <- olsLM(mpg ~ wt + hp + qsec, data = mtcars)
 summary(fit_multi)
 ```
 
-We also include some diagnostic quantities in olsLM():
+We also include some diagnostic quantities in `olsLM()`:
 
 ```{r}
 head(fit_multi$leverage)
@@ -170,7 +170,7 @@ head(fit_multi$r_student_ext)
 
 # Example 3: Diagnostic Plots
 
-The plot() helps to check the linearity, homoscedasticity, normality of residuals, and influential observations.
+The `plot()` helps to check the linearity, homoscedasticity, normality of residuals, and influential observations.
 
 ```{r, fig.height=6, fig.width=6}
 plot(fit_multi)
@@ -181,7 +181,7 @@ plot(fit_multi)
 
 # Correctness
 
-We compare the numeric correctness of olsLM() and lm() using all.equal().
+We compare the numeric correctness of `olsLM()` and `lm()` using `all.equal()`.
 
 ```{r}
 ## Fit models using olsLM() and lm()
@@ -215,12 +215,12 @@ summary(fit_lm)$r.squared)
 ```
 
 
-From the above comparisons, we see that olsLM() and lm() produce the same numerical results for the regression coefficients, fitted values, residuals, and R^2. This demonstrates the correctness of the implementation
+From the above comparisons, we see that `olsLM()` and `lm()` produce the same numerical results for the regression coefficients, fitted values, residuals, and R^2. This demonstrates the correctness of the implementation
 
 
 # Efficiency
 
-We compare the efficiency of olsLM() and lm() using bench::mark().
+We compare the efficiency of `olsLM()` and `lm()` using `bench::mark()`.
 
 ```{r}
 library(bench)
@@ -233,7 +233,7 @@ check = FALSE
 )
 ```
 
-The olsLM() function directly computes the closed-form of OLS solution with minimal overhead in running time, while lm() is a more general and feature-rich implementation that supports many additional model types and options.
+The `olsLM()` function directly computes the closed-form of OLS solution with minimal overhead in running time, while `lm()` is a more general and feature-rich implementation that supports many additional model types and options.
 
 
 
